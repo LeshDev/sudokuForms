@@ -27,8 +27,7 @@ namespace SudokuForms
 
         private void label1_Click(object sender, EventArgs e)
         {
-            bool active = true;
-            //label1.Text = buttonNumber;
+
         }
 
         public void button1_Click(object sender, EventArgs e)
@@ -96,83 +95,133 @@ namespace SudokuForms
 
         private void button10_Click(object sender, EventArgs e)
         {
-            SodukuPlayfield sodukuPlayfield = new SodukuPlayfield();
-            bool noError = false;
-            int error = 0;
-            int correct = 0;
-            int x = sodukuPlayfield.grid.GetLength(0) - 1;
-            int y = sodukuPlayfield.grid.GetLength(1) - 1;
+            bool hasError = false;
 
-            var d = 1;
-            var r = 2;
-            var t = 3;
-            var z = 4;
-            var u = 5;
-            var o = 6;
-            var p = 7;
-            var a = 8;
-            var s = 9;
-
-            List<int> list = new List<int>();
-
-            bool exists = list.Exists(element => element < 1);
-            var multi1 = list.Contains(d);
-            var multi2 = list.Contains(r);
-            var multi3 = list.Contains(t);
-            var multi4 = list.Contains(z);
-            var multi5 = list.Contains(u);
-            var multi6 = list.Contains(o);
-            var multi7 = list.Contains(p);
-            var multi8 = list.Contains(a);
-            var multi9 = list.Contains(s);
-
-            for (int i = 0; i < 9; i++)
+            if (sodukuPlayfield.RandomGrid == 0)
             {
-                for(int j = 0; j < 9; j++)
+                IDictionary<int, int> test = new Dictionary<int, int>();
+                for (int i = 0; i < 9; i++)
                 {
-                    if (multi1 == true && multi2 == true && multi3 == true && multi4 == true && multi5 == true && multi6 == true && multi7 == true && multi8 == true && multi9 == true)
+                    test.Clear();
+                    for (int j = 0; j < 9; j++)
                     {
-                        noError = true;
+                        
+                        int value= sodukuPlayfield.grid[j, i];
+                        if (!test.ContainsKey(value))
+                        {
+                            if (value == 0)
+                            {
+                                hasError = true;
+                            }
+                            test.Add(value, 1);
+                        }
+                        else
+                        {
+                            test[value] += 1;
+                            hasError = true;
+                        }
                     }
-                    list.Add(sodukuPlayfield.grid[i, j]);
+
+                }
+            }
+            if (sodukuPlayfield.RandomGrid == 1)
+            {
+                IDictionary<int, int> test = new Dictionary<int, int>();
+                for (int i = 0; i < 9; i++)
+                {
+                    test.Clear();
+                    for (int j = 0; j < 9; j++)
+                    {
+
+                        int value = sodukuPlayfield.grid2[j, i];
+                        if (!test.ContainsKey(value))
+                        {
+                            if (value == 0)
+                            {
+                                hasError = true;
+                            }
+                            test.Add(value, 1);
+                        }
+                        else
+                        {
+                            test[value] += 1;
+                            hasError = true;
+                        }
+                    }
+
+                }
+            }
+            if (sodukuPlayfield.RandomGrid == 2)
+            {
+                IDictionary<int, int> test = new Dictionary<int, int>();
+                for (int i = 0; i < 9; i++)
+                {
+                    test.Clear();
+                    for (int j = 0; j < 9; j++)
+                    {
+
+                        int value = sodukuPlayfield.grid3[j, i];
+                        if (!test.ContainsKey(value))
+                        {
+                            if (value == 0)
+                            {
+                                hasError = true;
+                            }
+                            test.Add(value, 1);
+                        }
+                        else
+                        {
+                            test[value] += 1;
+                            hasError = true;
+                        }
+                    }
+
                 }
             }
 
-
-
-            
-
-            if (exists == true)
-            {
-                noError = false;
-            }
-            else
-            {
-                noError = true;
-            }
-            if (noError == true)
+            if (hasError == false)
             {
                 MessageBox.Show("++ Es wurden keine Fehler gefunden ++");
-                correct = 0;
-
             }
-            if (noError == false)
+            if (hasError == true)
             {
                 MessageBox.Show("-- Einer oder mehrere Fehler wurden gefunden --");
             }
-            label4.Text = Convert.ToString(correct);
-            correct = 0;
         }
 
-        public bool checkForZero(int value)
+        public bool checkForError(int[,] grid)
         {
-            if (value == 0)
+            bool hasError = false;
+
+            IDictionary<int, int> test = new Dictionary<int, int>();
+
+            if (sodukuPlayfield.RandomGrid == 0)
             {
-                return false;
-            }else
-            {
-                return true;
+                for (int i = 0; i < 9; i++)
+                {
+                    test.Clear();
+                    for (int j = 0; j < 9; j++)
+                    {
+
+                        int value = sodukuPlayfield.grid[j, i];
+                        if (!test.ContainsKey(value))
+                        {
+                            if (value == 0)
+                            {
+                                hasError = true;
+                            }
+                            test.Add(value, 1);
+                        }
+                        else
+                        {
+                            test[value] += 1;
+                            hasError = true;
+                        }
+                    }
+
+                }
             }
+            return hasError;
         }
         private void button11_Click(object sender, EventArgs e)
         {

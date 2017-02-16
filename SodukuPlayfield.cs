@@ -17,14 +17,15 @@ namespace SudokuForms
         public int[,] grid2;
         public int[,] grid3;
 
-        Random random = new Random();
-
+        public Random random = new Random();
+        public int RandomGrid; /* { get; set; }*/
         public SodukuPlayfield()
         {
             Random rdm = new Random();
+            RandomGrid = random.Next(3);
 
-            grid = new int[,] 
-            {
+            grid = new int[,]
+                {
                 { 7, 4, 1, 3, 8, 6, 5, 2, 9},
                 { 3, 8, 2, 7, 9, 5, 1, 4, 6},
                 { 5, 6, 9, 2, 4, 1, 3, 7, 8},
@@ -66,10 +67,9 @@ namespace SudokuForms
             int startUpnumber = 68;                 // 50 null
             int rowGrid = grid.GetLength(0);
             int colGrid = grid.GetLength(1);
-            int randomGrid = random.Next(3);
 
 
-            if (randomGrid == 0)
+            if (RandomGrid == 0)
             {
                 for (int i = 0; i < startUpnumber; i++)
                 {
@@ -87,7 +87,7 @@ namespace SudokuForms
                     }
                 }
             }
-            if(randomGrid == 1)
+            if (RandomGrid == 1)
             {
                 for (int i = 0; i < startUpnumber; i++)
                 {
@@ -105,14 +105,12 @@ namespace SudokuForms
                     }
                 }
             }
-            if(randomGrid == 2)
+            if (RandomGrid == 2)
             {
                 for (int i = 0; i < startUpnumber; i++)
                 {
-
                     int x = rdm.Next(9);
                     int y = rdm.Next(9);
-
                     if (grid3[x, y] > 0)
                     {
                         grid3[x, y] = rdm.Next(1);
@@ -124,6 +122,7 @@ namespace SudokuForms
                 }
             }
         }
+
         protected override void OnPaint(PaintEventArgs e)
         {
             Pen penB = new Pen(Color.FromArgb(100, 0, 0, 0), 2);
@@ -152,9 +151,7 @@ namespace SudokuForms
             e.Graphics.DrawLine(penB, 0, 350, 1000, 350);
             e.Graphics.DrawLine(penB, 0, 400, 1000, 400);
 
-            int randomGrid = random.Next(3);
-
-            if (randomGrid == 0) { 
+            if (RandomGrid == 0) { 
                 for (int y = 0; y < 9; y++)
                 {
                     for (int x = 0; x < 9; x++)
@@ -163,8 +160,7 @@ namespace SudokuForms
                     }
                 }
             }
-
-            if(randomGrid == 1)
+            if(RandomGrid == 1)
             {
                 for (int y = 0; y < 9; y++)
                 {
@@ -174,8 +170,7 @@ namespace SudokuForms
                     }
                 }
             }
-
-            if(randomGrid == 2)
+            if(RandomGrid == 2)
             {
                 for (int y = 0; y < 9; y++)
                 {
@@ -185,26 +180,26 @@ namespace SudokuForms
                     }
                 }
             }
-
-            foreach (var item in _clickedLocations)
-            {
-                //e.Graphics.DrawRectangle(new Pen(Color.Red, 1), item.X, item.Y, 1, 1);
-            }
-            Form1 form = new Form1();
-            foreach (var item in _clickedLocations)
-            {
-                //e.Graphics.DrawString(form.buttonNumber.ToString(),SystemFonts.DefaultFont,SystemBrushes.ControlDarkDark,item.X*50,item.Y*50);
-            }
         }
 
         protected override void OnMouseClick(MouseEventArgs e)
         {
-            
             _clickedLocations.Add(e.Location);
             int x = e.Location.X / 50;
 
             int y = e.Location.Y / 50;
-            grid[x, y] = Form1.buttonNumber;
+            if(RandomGrid == 0)
+            {
+                grid[x, y] = Form1.buttonNumber;
+            }
+            if (RandomGrid == 1)
+            {
+                grid2[x, y] = Form1.buttonNumber;
+            }
+            if(RandomGrid == 2)
+            {
+                grid3[x, y] = Form1.buttonNumber;
+            }
             Invalidate();
         }
     }
